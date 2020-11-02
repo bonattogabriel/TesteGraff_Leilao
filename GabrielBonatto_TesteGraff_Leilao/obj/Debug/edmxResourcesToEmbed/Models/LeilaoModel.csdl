@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TesteGraffLeilaoGabrielBonattoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Lance">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="PessoaId" Type="Int32" Nullable="false" />
+    <Property Name="ProdutoId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Pessoa" Relationship="Self.FK_Lances_PessoaId" FromRole="Lance" ToRole="Pessoa" />
+    <NavigationProperty Name="Produto" Relationship="Self.FK_Lances_ProdutoId" FromRole="Lance" ToRole="Produto" />
+  </EntityType>
+  <EntityType Name="Pessoa">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Nome" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Idade" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Lance" Relationship="Self.FK_Lances_PessoaId" FromRole="Pessoa" ToRole="Lance" />
+  </EntityType>
+  <EntityType Name="Produto">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Nome" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Valor" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+    <NavigationProperty Name="Lance" Relationship="Self.FK_Lances_ProdutoId" FromRole="Produto" ToRole="Lance" />
+  </EntityType>
+  <Association Name="FK_Lances_PessoaId">
+    <End Role="Pessoa" Type="Self.Pessoa" Multiplicity="1" />
+    <End Role="Lance" Type="Self.Lance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pessoa">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Lance">
+        <PropertyRef Name="PessoaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Lances_ProdutoId">
+    <End Role="Produto" Type="Self.Produto" Multiplicity="1" />
+    <End Role="Lance" Type="Self.Lance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Produto">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Lance">
+        <PropertyRef Name="ProdutoId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TesteGraffLeilaoGabrielBonattoEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Lance" EntityType="Self.Lance" />
+    <EntitySet Name="Pessoa" EntityType="Self.Pessoa" />
+    <EntitySet Name="Produto" EntityType="Self.Produto" />
+    <AssociationSet Name="FK_Lances_PessoaId" Association="Self.FK_Lances_PessoaId">
+      <End Role="Pessoa" EntitySet="Pessoa" />
+      <End Role="Lance" EntitySet="Lance" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Lances_ProdutoId" Association="Self.FK_Lances_ProdutoId">
+      <End Role="Produto" EntitySet="Produto" />
+      <End Role="Lance" EntitySet="Lance" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

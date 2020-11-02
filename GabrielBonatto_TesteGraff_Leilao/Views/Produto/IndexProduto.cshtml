@@ -1,0 +1,76 @@
+﻿@model IEnumerable<GabrielBonatto_TesteGraff_Leilao.Models.Produto>
+
+@{
+  ViewBag.Title = "IndexProduto";
+}
+
+<h2>IndexProduto</h2>
+
+<p>
+  @Html.ActionLink("Adicionar Produto", "CadProduto")
+</p>
+<table class="table" id="tblProdutos">
+  <tr>
+    <th>
+      @Html.DisplayNameFor(model => model.Nome)
+    </th>
+    <th>
+      @Html.DisplayNameFor(model => model.Valor)
+    </th>
+    <th></th>
+  </tr>
+
+  @foreach (var item in Model)
+  {
+    <tr>
+      <td>
+        @Html.DisplayFor(modelItem => item.Nome)
+      </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.Valor)
+      </td>
+      <td>
+        @Html.ActionLink("Editar", "CadProdutoAlterar", new { id = item.Id }) |
+        <button type="button" class="btn btn-link" data-item="@item.Id">Deletar</button>
+      </td>
+    </tr>
+  }
+
+</table>
+
+<div>
+  @Html.ActionLink("Back to Home", "Index", "Home", null, new { @class = "page-scroll" })
+</div>
+@section Scripts {
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $(".btn-link").click(function () {
+        var id = $(this).attr('data-item');
+        if (confirm("Você tem certeza que gostaria de excluir este registro?")) {
+          $.ajax({
+            method: "POST",
+            url: "/Produto/Delete/" + id,
+            success: function (data) {
+              $("#tblProdutos tbody > tr").remove();
+              $.each(data, function (i, produto) {
+                $("#tblProdutos tbody").append(
+                  `<tr>` +
+                  `   <td>` + produto.Nome + `</td>` +
+                  `   <td>` + produto.Valor + `</td>` +
+                  `   <td>` +
+                  `       <a href='/Produto/Edit/` + produto.Id + `'>Editar</a> |` +
+                  `       <button type="button" class="btn btn-link" data-item="` + produto.Id + `">Deletar</button>` +
+                  `   </td>` +
+                `</tr>`
+                );
+              });
+            },
+            error: function (data) {
+              alert("Houve um erro na pesquisa.");
+            }
+          });
+        }
+      });
+    });
+  </script>
+}

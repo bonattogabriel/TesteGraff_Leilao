@@ -1,0 +1,89 @@
+﻿@model IEnumerable<GabrielBonatto_TesteGraff_Leilao.DTO.LanceGridDTO>
+
+@{
+  ViewBag.Title = "Lances";
+}
+
+<h2>Lances</h2>
+
+<p>
+  @Html.ActionLink("Adicionar Novo", "CadLance")
+</p>
+@using (Html.BeginForm())
+{
+  <p>
+    Find by name: @Html.TextBox("filtro")
+    <input type="submit" value="Search" />
+  </p>
+}
+<table class="table">
+  <tr>
+    <th>
+      @Html.DisplayNameFor(model => model.Valor)
+    </th>
+    <th>
+      @Html.DisplayNameFor(model => model.PessoaNome)
+    </th>
+    <th>
+      @Html.DisplayNameFor(model => model.ProdutoNome)
+    </th>
+    <th></th>
+  </tr>
+
+  @foreach (var item in Model)
+  {
+    <tr>
+      <td>
+        @Html.DisplayFor(modelItem => item.Valor)
+      </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.PessoaNome)
+      </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.ProdutoNome)
+      </td>
+      <td>
+        @Html.ActionLink("Edit", "CadLanceAlterar", new { id = item.Id }) |
+        <button type="button" class="btn btn-link" data-item="@item.Id">Deletar</button>
+      </td>
+    </tr>
+  }
+</table>
+
+<div>
+  @Html.ActionLink("Back to Home", "Index", "Home", null, new { @class = "page-scroll" })
+</div>
+@section Scripts {
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $(".btn-link").click(function () {
+        var id = $(this).attr('data-item');
+        if (confirm("Você tem certeza que gostaria de excluir este registro?")) {
+          $.ajax({
+            method: "POST",
+            url: "/Lance/Delete/" + id,
+            success: function (data) {
+              $("#tblPessoas tbody > tr").remove();
+              $.each(data, function (i, lance) {
+                $("#tblLance tbody").append(
+                  `<tr>` +
+                  `   <td>` + lance.ProdutoNome + `</td>` +
+                  `   <td>` + lance.PessoaNome + `</td>` +
+                  `   <td>` + lance.Valor + `</td>` +
+                  `   <td>` +
+                  `       <a href='/Lance/Edit/` + lance.Id + `'>Editar</a> |` +
+                  `       <button type="button" class="btn btn-link" data-item=` + pessoa.Id + `>Deletar</button>` +
+                  `   </td>` +
+                  `</tr>`
+                );
+              });
+            },
+            error: function (data) {
+              alert("Houve um erro na pesquisa.");
+            }
+          });
+        }
+      });
+    });
+  </script>
+}

@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TesteGraffLeilaoGabrielBonattoModelStoreContainer" CdmEntityContainer="TesteGraffLeilaoGabrielBonattoEntities">
+    <EntitySetMapping Name="Lance">
+      <EntityTypeMapping TypeName="TesteGraffLeilaoGabrielBonattoModel.Lance">
+        <MappingFragment StoreEntitySet="Lance">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="PessoaId" ColumnName="PessoaId" />
+          <ScalarProperty Name="ProdutoId" ColumnName="ProdutoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Pessoa">
+      <EntityTypeMapping TypeName="TesteGraffLeilaoGabrielBonattoModel.Pessoa">
+        <MappingFragment StoreEntitySet="Pessoa">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="Idade" ColumnName="Idade" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Produto">
+      <EntityTypeMapping TypeName="TesteGraffLeilaoGabrielBonattoModel.Produto">
+        <MappingFragment StoreEntitySet="Produto">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="Valor" ColumnName="Valor" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
