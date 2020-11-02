@@ -1,0 +1,31 @@
+GO
+CREATE SCHEMA [Leilao]
+    AUTHORIZATION [dbo];
+GO
+CREATE TABLE [Leilao].[Pessoa]
+(
+	[Id] INT IDENTITY(1,1),
+  [Nome] VARCHAR(255) NOT NULL,
+  [Idade] INT NOT NULL
+);
+GO
+CREATE TABLE [Leilao].[Produto]
+(
+  [Id] INT IDENTITY(1,1),
+  [Nome] VARCHAR(255) NOT NULL,
+  [Valor] DECIMAL NOT NULL
+);
+GO
+CREATE TABLE [Leilao].[Lance]
+(
+	[Id] INT IDENTITY(1,1),
+	[Valor] DECIMAL NOT NULL,
+	[PessoaId] INT NOT NULL,
+	[ProdutoId] INT NOT NULL
+);
+GO
+ALTER TABLE [Leilao].[Lance]
+(
+	ADD CONSTRAINT [FK_Lances_PessoaId] FOREIGN KEY ([PessoaId]) REFERENCES [Leilao].[Pessoa] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
+	ADD CONSTRAINT [FK_Lances_ProdutoId] FOREIGN KEY ([ProdutoId]) REFERENCES [Leilao].[Produto] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
+);
